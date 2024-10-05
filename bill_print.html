@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill-Print</title>
+    <style>
+        /* CSS rule to hide elements when printing */
+        @media print {
+            .no-print {
+                display: none;
+            }
+            body {
+                border: 2px solid black; /* Full page border */
+                padding: 20px;           /* Add padding so the content doesn't touch the border */
+                margin: 0;               /* Remove default margin */
+            }
+        }
+        .p {
+        line-height: 0; /* Minimizes the line spacing */
+        }
+        .top{
+            vertical-align: top;
+        }
+        .bro{
+            border-top: 1px solid black; /* Top border */
+            border-bottom: 1px solid black; /* Bottom border */
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1 align = "center">MONU MASALE</h1>
+    <p align = "center">H.no. 1A, Preet Colony, Jandli, Ambala City, Haryana - 134003<br>Contact: 9253084605, 7230071013<br>Email: ramniwassingh6061@gmail.com<br>GSTIN: 06BANPD4998J1Z4</p>
+    <h3 align = "center">TAX INVOICE</h3> 
+    <table border="1" align = "center" cellpadding = "5" cellspacing = "0">
+        <tr>
+            <td colspan = "3"><b>Buyer Details</b></td>
+            <td><b>Invoice No.</b></td>
+            <td <span id = "inno"></span></td>
+            <td><b>Date</b></td>
+            <td <span id = "pdate"></td>            
+        </tr>
+        <tr>
+            <td colspan = "3" rowspan = "4" class = "top">
+                <b><p class = "p" <span id = "cname"></span></p></b>
+                <p class = "p" <span id = "ccont"></span></p>
+                <p class = "p" <span id = "cadd"></span></p>
+                <p class = "p" <span id = "cgst"></span></p>
+            </td>
+            <td><b>Reverse Charge</b></td>
+            <td <span id = "revc"></span></td>
+            <td><b>State</b></td></b>
+            <td <span id = "pstate"></span></td>
+        </tr>
+        <tr>
+            <td><b>Challan No.</b></td>
+            <td <span id = "pchno"></span></td>
+            <td><b>Vehicle No.</b></td>
+            <td <span id = "vhno"></span></td>
+        </tr>
+        <tr>
+            
+            <td><b>Transportation Mode</b></td>
+            <td <span id = "tmode"></span></td>
+            <td><b>Transport Name</b></td>
+            <td <span id = "tname"></span></td>
+        </tr>
+        <tr>
+
+            <td><b>Date of Supply</b></td>
+            <td <span id = "dos"></span></td>
+            <td><b>Place of Supply</b></td>
+            <td <span id = "pos"></span></td>
+        </tr>
+    </table>
+    <br>
+    <table id="billTable" border="1" width="100%" cellspacing = "0" cellpadding = "5">
+        <thead>
+            <tr>
+                <th>Sno.</th>
+                <th>Description of Goods</th>
+                <th>HSN/SAC Code</th>
+                <th>Quantity</th>
+                <th>Rate</th>
+                <th>Per</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Rows will be dynamically added here -->
+        </tbody>
+    </table>
+    
+    <h3>Total Calculations</h3>
+    <p class = "p"><strong>Total Amount: </strong> ₹<span id="totalAmount">0.00</span></p>
+    <p class="p"><strong>GST (5%): </strong> ₹<span id="gstAmount">0.00</span></p>
+    <p class="p"><strong>Grand Total: </strong> ₹<span id="grandTotal">0.00</span></p>
+    <br><br><br>
+    <center>
+    <p class="bro"><b>BANK DETAILS:</b> BANK NAME:- SBI, A/C NO:- 40997672389 & IFSC CODE:- SBIN0000607</p>
+    </center>
+    <br><br>
+    <p align="right">
+        <b>FOR MONU MASALE</b><br><br><br>Authorized Signatory
+    </p><br><br>
+    </nr>
+    <p align = "center">
+        -----SUBJECT TO AMBALA JURISDICTION-----<br>This is a Computer Generated Invoice
+    </p>
+    <center>
+    <button class="no-print" onclick="printPage()">Print Bill</button>
+    </center>
+
+</body>
+
+<script>
+      
+    function printPage() {
+        window.print();  // This triggers the print dialog for the entire page.
+    }
+    const params = new URLSearchParams(window.location.search);
+        
+        // Display the input data in the output table
+        document.getElementById("cname").textContent = params.get("bname");
+        document.getElementById("ccont").textContent = params.get("bcont");
+        document.getElementById("cadd").textContent = params.get("badd");
+        document.getElementById("cgst").textContent = params.get("bgst");
+        document.getElementById("pdate").textContent = params.get("date");
+        document.getElementById("inno").textContent = params.get("invoiceno");
+        document.getElementById("revc").textContent = params.get("revcharge");
+        document.getElementById("pstate").textContent = params.get("state");
+        document.getElementById("pchno").textContent = params.get("chno");
+        document.getElementById("vhno").textContent = params.get("vehno");
+        document.getElementById("tmode").textContent = params.get("tmode");
+        document.getElementById("tname").textContent = params.get("tname");
+        document.getElementById("dos").textContent = params.get("dos");
+        document.getElementById("pos").textContent = params.get("pos");
+</script>
+</html>

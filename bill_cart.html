@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bill Cart</title>
+</head>
+<body>
+    <form action = "bill_print.html" method="get" target = "Print">
+        <label for = "invoiceno">Invoice No:</label>
+        <input type = "text" id = "invoiceno" name = "invoiceno">
+        <br><br>
+        <lable for = "date">Date: </lable>
+        <input type = "text" id = "date" name = "date">
+        <br><br>
+        <lable for = "revcharge">Reverse Charge: </lable>
+        <input type = "text" id = "revcharge" name = "revcharge">
+        <br><br>
+        <lable for = "state">State: </lable>
+        <input type = "text" id = "state" name = "state">
+        <br><br>
+        <lable for = "chno">Challan No: </lable>
+        <input type = "text" id = "chno" name = "chno">
+        <br><br>
+        <lable for = "vehno">Vehicle No: </lable>
+        <input type = "text" id = "vehno" name = "vehno">
+        <br><br>
+        <lable for = "tmode">Transportation Mode: </lable>
+        <input type = "text" id = "tmode" name = "tmode">
+        <br><br>
+        <lable for = "tname">Transport Name: </lable>
+        <input type = "text" id = "tname" name = "tname">
+        <br><br>
+        <lable for = "dos">Date of Supply: </lable>
+        <input type = "text" id = "dos" name = "dos">
+        <br><br>
+        <lable for = "pos">Place of Supply: </lable>
+        <input type = "text" id = "pos" name = "pos">
+        <h4><u>Buyer's Information</u></h4>
+        <lable for = "bname">Byuer's Name:</lable>
+        <input type = "text" id = "bname" name = "bname">
+        <br><br>
+        <lable for = "bcont">Byuer's Contact:</lable>
+        <input type = "text" id = "bcont" name = "bcont">
+        <br><br>
+        <lable for = "badd">Byuer's Address:</lable>
+        <input type = "text" id = "badd" name = "badd">
+        <br><br>
+        <lable for = "bgst">Byuer's GST:</lable>
+        <input type = "text" id = "bgst" name = "bgst">
+        <br><br>
+        <input type = "submit" value = "Submit Details" >
+    </form>
+    <br>
+    <h2>Enter Product Details</h2>
+    <form onsubmit="event.preventDefault(); addToBill();">
+        <label for="description">Description of Goods:</label>
+        <input type="text" id="description" required><br><br>
+
+        <label for="hsnCode">HSN/SAC Code:</label>
+        <input type="text" id="hsnCode" required><br><br>
+
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" required><br><br>
+
+        <label for="rate">Rate:</label>
+        <input type="number" id="rate" step="0.01" required><br><br>
+
+        <label for="per">Per (Unit):</label>
+        <input type="text" id="per" required><br><br>
+
+        <button type="submit">Add to Bill</button>
+        <input type = "reset" value = "Reset form">
+    </form>
+</body>
+<script>
+    let serialNumber = 1;
+
+function addToBill() {
+    // Get the form values
+    let description = document.getElementById('description').value;
+    let hsnCode = document.getElementById('hsnCode').value;
+    let quantity = parseFloat(document.getElementById('quantity').value);
+    let rate = parseFloat(document.getElementById('rate').value);
+    let per = document.getElementById('per').value;
+    let amount = quantity * rate;
+
+    // Target the second frame to display the data
+    let displayFrame = parent.frames['Print'].document;
+    
+    // Add the row with form data
+    let table = displayFrame.getElementById('billTable').getElementsByTagName('tbody')[0];
+    let newRow = table.insertRow();
+    newRow.innerHTML = `
+        <td>${serialNumber++}</td>
+        <td>${description}</td>
+        <td>${hsnCode}</td>
+        <td>${quantity}</td>
+        <td>${rate}</td>
+        <td>${per}</td>
+        <td>${amount.toFixed(2)}</td>
+    `;
+
+    // Update the total amount, GST, and grand total
+    let totalAmount = parseFloat(displayFrame.getElementById('totalAmount').innerText) + amount;
+    displayFrame.getElementById('totalAmount').innerText = totalAmount.toFixed(2);
+
+    let gst = totalAmount * 0.05;  // GST = 5% of total
+    displayFrame.getElementById('gstAmount').innerText = gst.toFixed(2);
+
+    let grandTotal = totalAmount + gst;
+    displayFrame.getElementById('grandTotal').innerText = grandTotal.toFixed(2);
+}
+</script>
+</html>
